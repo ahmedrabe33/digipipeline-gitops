@@ -1,0 +1,233 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: auraweb-gateway
+  namespace: auraweb-dev
+spec:
+  gatewayClassName: eg
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: auraweb-routes
+  namespace: auraweb-dev
+spec:
+  parentRefs:
+  - name: auraweb-gateway
+  rules:
+  # User & Auth Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/auth
+    - path:
+        type: PathPrefix
+        value: /api/users
+    - path:
+        type: PathPrefix
+        value: /api/notifications
+    - path:
+        type: PathPrefix
+        value: /api/health
+    backendRefs:
+    - name: user-auth
+      port: 3000
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Catalog Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/products
+    - path:
+        type: PathPrefix
+        value: /api/categories
+    - path:
+        type: PathPrefix
+        value: /api/reviews
+    - path:
+        type: PathPrefix
+        value: /api/search
+    - path:
+        type: PathPrefix
+        value: /api/recommendations
+    backendRefs:
+    - name: catalog
+      port: 3001
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Order & Payment Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/orders
+    - path:
+        type: PathPrefix
+        value: /api/payments
+    backendRefs:
+    - name: order-payment
+      port: 3002
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Fulfillment Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/shipping
+    - path:
+        type: PathPrefix
+        value: /api/coupons
+    backendRefs:
+    - name: fulfillment
+      port: 3003
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Shopping Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/cart
+    - path:
+        type: PathPrefix
+        value: /api/wishlist
+    backendRefs:
+    - name: shopping
+      port: 3004
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Platform Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/analytics
+    - path:
+        type: PathPrefix
+        value: /api/files
+    - path:
+        type: PathPrefix
+        value: /api/reports
+    - path:
+        type: PathPrefix
+        value: /api/audit
+    backendRefs:
+    - name: platform
+      port: 3005
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Inventory Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/inventory
+    backendRefs:
+    - name: inventory
+      port: 3006
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Admin Panel
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /admin
+    backendRefs:
+    - name: admin
+      port: 80
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff
+
+  # Frontend (Root Catch-all)
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: frontend
+      port: 80
+    filters:
+    - type: ResponseHeaderModifier
+      responseHeaderModifier:
+        add:
+        - name: X-Frame-Options
+          value: SAMEORIGIN
+        - name: X-XSS-Protection
+          value: "1; mode=block"
+        - name: X-Content-Type-Options
+          value: nosniff

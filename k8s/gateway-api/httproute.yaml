@@ -1,0 +1,179 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app-routes
+  namespace: default
+spec:
+  parentRefs:
+  - name: app-gateway
+  rules:
+  # Auth Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/auth
+    backendRefs:
+    - name: auth-service
+      port: 3000
+  
+  # Product Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/products
+    backendRefs:
+    - name: product-service
+      port: 3001
+      
+  # Order Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/orders
+    backendRefs:
+    - name: order-service
+      port: 3002
+
+  # Cart Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/cart
+    backendRefs:
+    - name: cart-service
+      port: 3014
+
+  # Analytics Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/analytics
+    backendRefs:
+    - name: analytics-service
+      port: 3005
+
+  # Notification Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/notifications
+    backendRefs:
+    - name: notification-service
+      port: 3003
+
+  # Payment Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/payments
+    backendRefs:
+    - name: payment-service
+      port: 3004
+
+  # File Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/files
+    backendRefs:
+    - name: file-service
+      port: 3006
+
+  # Search Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/search
+    backendRefs:
+    - name: search-service
+      port: 3007
+
+  # Recommendation Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/recommendations
+    backendRefs:
+    - name: recommendation-service
+      port: 3008
+
+  # Inventory Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/inventory
+    backendRefs:
+    - name: inventory-service
+      port: 3009
+
+  # Shipping Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/shipping
+    backendRefs:
+    - name: shipping-service
+      port: 3010
+
+  # Review Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/reviews
+    backendRefs:
+    - name: review-service
+      port: 3011
+
+  # Wishlist Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/wishlists
+    backendRefs:
+    - name: wishlist-service
+      port: 3012
+
+  # Coupon Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/coupons
+    backendRefs:
+    - name: coupon-service
+      port: 3013
+
+  # Reporting Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/reports
+    backendRefs:
+    - name: reporting-service
+      port: 3015
+
+  # Audit Service
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/audit
+    backendRefs:
+    - name: audit-service
+      port: 3016
+
+  # Admin App
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /admin
+    backendRefs:
+    - name: admin
+      port: 80
+
+  # Frontend App (Root Fallback)
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: frontend
+      port: 80

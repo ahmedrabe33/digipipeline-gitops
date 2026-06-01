@@ -1,0 +1,57 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+namespace: auraweb-prod
+
+commonLabels:
+  environment: production
+
+# Replace <ECR_REGISTRY> with your friend's ECR URL
+# e.g. 123456789012.dkr.ecr.us-east-1.amazonaws.com
+images:
+  - name: frontend
+    newName: <ECR_REGISTRY>/auraweb-frontend
+    newTag: latest
+  - name: admin
+    newName: <ECR_REGISTRY>/auraweb-admin
+    newTag: latest
+  - name: gateway
+    newName: <ECR_REGISTRY>/auraweb-gateway
+    newTag: latest
+  - name: catalog
+    newName: <ECR_REGISTRY>/auraweb-catalog
+    newTag: latest
+  - name: inventory
+    newName: <ECR_REGISTRY>/auraweb-inventory
+    newTag: latest
+  - name: shopping
+    newName: <ECR_REGISTRY>/auraweb-shopping
+    newTag: latest
+  - name: order-payment
+    newName: <ECR_REGISTRY>/auraweb-order-payment
+    newTag: latest
+  - name: fulfillment
+    newName: <ECR_REGISTRY>/auraweb-fulfillment
+    newTag: latest
+  - name: user-auth
+    newName: <ECR_REGISTRY>/auraweb-user-auth
+    newTag: latest
+  - name: platform
+    newName: <ECR_REGISTRY>/auraweb-platform
+    newTag: latest
+
+patches:
+  - target:
+      kind: Deployment
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: add
+        path: /spec/template/spec/containers/0/env/-
+        value:
+          name: LOG_LEVEL
+          value: info

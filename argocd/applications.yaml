@@ -1,0 +1,88 @@
+# Apply this once to your EKS cluster after ArgoCD is installed:
+#   kubectl apply -f argocd/applications.yaml
+#
+# After that, ArgoCD automatically syncs every commit to auraweb-k8s into EKS.
+# Jenkins only updates image tags here — ArgoCD does the actual deploy.
+
+# ── Production ────────────────────────────────────────────────────────────────
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: auraweb-production
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Khairy-808/auraweb-k8s.git
+    targetRevision: main
+    path: k8s/overlays/production
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: auraweb-prod
+
+  syncPolicy:
+    automated:
+      prune: true      # removes resources deleted from the repo
+      selfHeal: true   # reverts manual kubectl changes to match the repo
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  revisionHistoryLimit: 10
+
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /spec/replicas   # ignore replica count so HPA can scale freely
+
+---
+# ── Staging / Dev (optional) ──────────────────────────────────────────────────
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: auraweb-staging
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Khairy-808/auraweb-k8s.git
+    targetRevision: main
+    path: k8s/overlays/development
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: auraweb-dev
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+
+  revisionHistoryLimit: 10
