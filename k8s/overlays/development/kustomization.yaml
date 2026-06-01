@@ -1,53 +1,44 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 resources:
-  - ../../base
-  - ingress.yaml
-
+- ../../base
+- ingress.yaml
 namespace: auraweb-dev
-
 commonLabels:
   environment: development
-
 images:
-  - name: frontend
-    newName: your-registry.com/auraweb/frontend
-    newTag: latest
-  - name: admin
-    newName: your-registry.com/auraweb/admin
-    newTag: latest
-  - name: gateway
-    newName: your-registry.com/auraweb/gateway
-    newTag: latest
-  - name: catalog
-    newName: your-registry.com/auraweb/catalog
-    newTag: latest
-  - name: inventory
-    newName: your-registry.com/auraweb/inventory
-    newTag: latest
-  - name: shopping
-    newName: your-registry.com/auraweb/shopping
-    newTag: latest
-  - name: order-payment
-    newName: your-registry.com/auraweb/order-payment
-    newTag: latest
-  - name: fulfillment
-    newName: your-registry.com/auraweb/fulfillment
-    newTag: latest
-  - name: user-auth
-    newName: your-registry.com/auraweb/user-auth
-    newTag: latest
-  - name: platform
-    newName: your-registry.com/auraweb/platform
-    newTag: latest
-
+- name: frontend
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-frontend
+  newTag: build-5-673ebbc
+- name: admin
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-admin
+  newTag: build-5-673ebbc
+- name: gateway
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-gateway
+  newTag: build-5-673ebbc
+- name: catalog
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-catalog
+  newTag: build-5-673ebbc
+- name: inventory
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-inventory
+  newTag: build-5-673ebbc
+- name: shopping
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-shopping
+  newTag: build-5-673ebbc
+- name: order-payment
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-order-payment
+  newTag: build-5-673ebbc
+- name: fulfillment
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-fulfillment
+  newTag: build-5-673ebbc
+- name: user-auth
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-user-auth
+  newTag: build-5-673ebbc
+- name: platform
+  newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-platform
+  newTag: build-5-673ebbc
 patches:
-  - target:
-      kind: Deployment
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/0/env/-
-        value:
-          name: LOG_LEVEL
-          value: debug
+- target:
+    kind: Deployment
+  patch: "- op: add\n  path: /spec/template/spec/containers/0/env/-\n  value:\n  \
+    \  name: LOG_LEVEL\n    value: debug"
