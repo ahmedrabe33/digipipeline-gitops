@@ -2,17 +2,23 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: auraweb-ingress
+  namespace: auraweb-dev
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/success-codes: "200-399"
 spec:
-  ingressClassName: nginx
+  ingressClassName: alb
   rules:
-  - http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: gateway
-            port:
-              number: 80
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
