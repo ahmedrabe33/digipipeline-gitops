@@ -9,34 +9,34 @@ commonLabels:
 images:
 - name: frontend
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-frontend
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: admin
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-admin
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: gateway
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-gateway
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: catalog
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-catalog
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: inventory
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-inventory
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: shopping
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-shopping
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: order-payment
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-order-payment
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: fulfillment
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-fulfillment
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: user-auth
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-user-auth
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 - name: platform
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-platform
-  newTag: build-6-673ebbc
+  newTag: build-3-673ebbc
 patches:
 - target:
     kind: Deployment
