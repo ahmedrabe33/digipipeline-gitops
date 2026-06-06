@@ -8,7 +8,9 @@ resources:
 namespace: auraweb-dev
 
 labels:
-  - pairs:
+  - includeSelectors: true
+    includeTemplates: true
+    pairs:
       environment: development
 
 images:
