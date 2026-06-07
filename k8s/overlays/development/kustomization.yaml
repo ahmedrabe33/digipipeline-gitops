@@ -12,31 +12,31 @@ labels:
 images:
 - name: frontend
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-frontend
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: admin
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-admin
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: gateway
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-gateway
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: catalog
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-catalog
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: inventory
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-inventory
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: shopping
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-shopping
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: order-payment
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-order-payment
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: fulfillment
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-fulfillment
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: user-auth
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-user-auth
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
 - name: platform
   newName: 429104603739.dkr.ecr.us-east-1.amazonaws.com/auraweb-platform
-  newTag: build-7-673ebbc
+  newTag: build-8-26a0e24
