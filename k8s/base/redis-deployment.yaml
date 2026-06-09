@@ -1,9 +1,15 @@
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: redis
@@ -15,8 +21,30 @@ spec:
       containers:
       - name: redis
         image: redis:8.4-alpine
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 6379
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "200m"
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          periodSeconds: 5
         env: []
 ---
 apiVersion: v1
@@ -24,7 +52,9 @@ kind: Service
 metadata:
   name: redis
 spec:
-  ports:
-  - port: 6379
   selector:
     app: redis
+  ports:
+  - port: 6379
+    targetPort: 6379
+```

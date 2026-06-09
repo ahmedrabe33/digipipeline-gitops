@@ -1,9 +1,15 @@
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: order-payment
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: order-payment
@@ -58,3 +64,4 @@ spec:
   ports:
   - port: 3002
     targetPort: 3002
+```

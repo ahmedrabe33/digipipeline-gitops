@@ -1,9 +1,15 @@
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shopping
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: shopping
@@ -58,3 +64,4 @@ spec:
   ports:
   - port: 3004
     targetPort: 3004
+```

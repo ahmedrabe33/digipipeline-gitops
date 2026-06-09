@@ -1,9 +1,15 @@
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: user-auth
 spec:
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: user-auth
@@ -60,3 +66,4 @@ spec:
   ports:
   - port: 3000
     targetPort: 3000
+```
