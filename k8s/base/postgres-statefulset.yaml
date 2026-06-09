@@ -46,12 +46,17 @@ spec:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
-    - metadata:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
         name: postgres-data
+        labels:
+          environment: development
       spec:
         accessModes:
           - ReadWriteOnce
         storageClassName: gp3
+        volumeMode: Filesystem
         resources:
           requests:
             storage: 1Gi
